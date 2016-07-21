@@ -40,10 +40,7 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        initializeText();
-//        backgroundAnimator=App.getAppBackgroundAnimator();
-//        initializeBackgroundAnimator();
-
+        initializeText();
     }
 
     @Override

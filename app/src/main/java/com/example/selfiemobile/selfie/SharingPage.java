@@ -42,9 +42,6 @@ public class SharingPage extends AppCompatActivity {
         welcomeMessage.setTypeface(helvetica);
         welcomeMessage.setTextColor(Color.WHITE);
         authConfig =  new TwitterAuthConfig("consumerKey", "consumerSecret");
-//
-//        backgroundAnimator=App.getAppBackgroundAnimator();
-//        initializeBackgroundAnimator();
 
     }
 
