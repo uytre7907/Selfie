@@ -38,5 +38,5 @@
         <activity android:name=".SignUp" />
         <activity android:name=".SharingPage"></activity>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
