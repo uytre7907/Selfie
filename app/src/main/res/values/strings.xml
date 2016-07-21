@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Selfie</string>
     <string name="welcome_text">Welcome!</string>
+    <string name="selfie">Selfie!</string>
     <string name="next">Next</string>
     <string name="join">Join Selfie!</string>
     <string name="slogan">See you soon!</string>

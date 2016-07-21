@@ -28,66 +28,48 @@ import io.fabric.sdk.android.SilentLogger;
 public class SharingPage extends AppCompatActivity {
 
     private TwitterAuthConfig authConfig;
-    private int[] colors =    {R.color.selfieDarkBlue, R.color.selfieDarkGreen, R.color.selfieDarkPurple,
-            R.color.selfieGreen, R.color.selfieMagenta, R.color.selfieOrange, R.color.selfiePurple,
-            R.color.selfieRed, R.color.selfieYellow};
-    private Timer timer;
-    private int index;
-
-    private RelativeLayout layout;
+    private BackgroundAnimator backgroundAnimator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_selfie_test_post_second);
-        layout = (RelativeLayout)(findViewById(R.id.post_second_layout));
-        initializeBackgroundColor();
+        setContentView(R.layout.activity_sharing_page);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        TextView welcomeMessage = (TextView) findViewById(R.id.JoinMessage);
+        TextView welcomeMessage = (TextView) findViewById(R.id.thank_message);
         Typeface helvetica = Typeface.createFromAsset(getAssets(), "HelveticaNeue.ttf");
         welcomeMessage.setTypeface(helvetica);
         welcomeMessage.setTextColor(Color.WHITE);
-        welcomeMessage.setText("Thanks. Want to tell anyone?");
         authConfig =  new TwitterAuthConfig("consumerKey", "consumerSecret");
-        MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sariassong);
-        MediaPlayer yes = MediaPlayer.create(getApplicationContext(), R.raw.broccoli);
-        mediaPlayer.start(); yes.start();
+//
+//        backgroundAnimator=App.getAppBackgroundAnimator();
+//        initializeBackgroundAnimator();
 
-        timer = new Timer();
-        timer.schedule(new updateBackgroundTask(), getResources().getInteger(R.integer.animation_transition_length),
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        backgroundAnimator.cancel();
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        App.setAppBackgroundAnimator(new BackgroundAnimator());
+        backgroundAnimator=App.getAppBackgroundAnimator();
+        initializeBackgroundAnimator();
+    }
+    private void initializeBackgroundAnimator()
+    {
+        backgroundAnimator.setActivity(this);
+        backgroundAnimator.setLayout((RelativeLayout)(findViewById(R.id.sharing_page_layout)));
+        backgroundAnimator.setButton(null);
+        backgroundAnimator.initializeBackgroundColor();
+        backgroundAnimator.schedule(backgroundAnimator.new updateBackgroundTask(), getResources().getInteger(R.integer.animation_transition_length),
                 getResources().getInteger(R.integer.animation_stay_length));
     }
 
-    private void initializeBackgroundColor() {
-        index = SignUp.getColorIndex();
-        layout.setBackgroundResource(colors[index]);
-    }
-    private void setBackgroundColor()
-    {
-        int newIndex;
-        do
-        {
-            newIndex = SelfieTestSecondScreen.randInt(0, colors.length-1);
-        }while (newIndex==index);
-        int colorFrom = ContextCompat.getColor(getApplicationContext(), colors[index]);
-        int colorTo = ContextCompat.getColor(getApplicationContext(), colors[newIndex]);
-
-        Log.i("status ", "changing from "+colorFrom+" to "+colorTo);
-        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
-        colorAnimation.setDuration(getResources().getInteger(R.integer.animation_transition_length)); // milliseconds
-        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-            @Override
-            public void onAnimationUpdate(ValueAnimator animator) {
-                layout.setBackgroundColor((int) animator.getAnimatedValue());
-            }
-
-        });
-        colorAnimation.start();
-        index = newIndex;
-    }
     public void facebook(View view)
     {
 
@@ -99,24 +81,10 @@ public class SharingPage extends AppCompatActivity {
         ShareDialog shareDialog = new ShareDialog(this);
         shareDialog.show(content, ShareDialog.Mode.AUTOMATIC);
     }
-    public void twitter(View view)
-    {
+    public void twitter(View view) {
         Fabric.with(this, new TwitterCore(authConfig), new TweetComposer());
         TweetComposer.Builder builder = new TweetComposer.Builder(this)
                 .text("Add me at " + SignUp.getUsername() + " on Selfie! #selfie #getconnected");
         builder.show();
     }
-    class updateBackgroundTask extends TimerTask
-    {
-        public void run()
-        {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    setBackgroundColor();
-                }
-            });
-        }
-    }
-
 }

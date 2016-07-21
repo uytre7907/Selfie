@@ -11,6 +11,8 @@ import com.parse.Parse;
  */
 public class App extends Application {
 
+
+    private static BackgroundAnimator backgroundAnimator=new BackgroundAnimator();
     @Override public void onCreate() {
         super.onCreate();
 
@@ -20,5 +22,13 @@ public class App extends Application {
         String ApplicationID = "uQUTn8iMqVdNNyB68CpIRQhfXuDqhs1JsaNsjz1l";
         String ClientKey = "6TvHb8jGsjxaUhnhJvlxBe86icSLLd45HuIK3yzX";
         Parse.initialize(this, ApplicationID, ClientKey); // Your Application ID and Client Key are defined elsewher
+    }
+    public static BackgroundAnimator getAppBackgroundAnimator()
+    {
+        return backgroundAnimator;
+    }
+    public static void setAppBackgroundAnimator(BackgroundAnimator b)
+    {
+        backgroundAnimator=b;
     }
 }
