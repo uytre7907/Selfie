@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#CBCBCB</color>
+    <color name="selfieRed">#cc3333</color>
+    <color name="selfiePurple">#663399</color>
+    <color name="selfieDarkPurple">#222266</color>
+    <color name="selfieGreen">#198926</color>
+    <color name="selfieOrange">#ae7129</color>
+    <color name="selfieMagenta">#760e4c</color>
+    <color name="selfieBlue">#007AFF</color>
+    <color name="selfieYellow">#ad962f</color>
+    <color name="selfieDarkBlue">#283e6f</color>
+    <color name="selfieBrightYellow">#ffff02</color>
+    <color name="selfieDarkGreen">#006665</color>
+    <color name="selfieButtonRed">#ff6665</color>
+    <color name="selfieButtonPurple">#9900cc</color>
+    <color name="selfieButtonDarkPurple">#aaabcc</color>
+    <color name="selfieButtonGreen">#00ff02</color>
+    <color name="selfieButtonOrange">#ffa500</color>
+    <color name="selfieButtonMagenta">#800080</color>
+    <color name="selfieButtonYellow">#d0aa01</color>
+    <color name="selfieButtonDarkBlue">#353ff8</color>
+    <color name="selfieButtonBrightYellow">#d0aa01</color>
+    <color name="selfieButtonDarkGreen">#009999</color>
+    <integer-array name="button_colors">
+        <item>@color/selfieButtonDarkBlue</item>
+        <item>@color/selfieButtonDarkGreen</item>
+        <item>@color/selfieButtonDarkPurple</item>
+        <item>@color/selfieButtonGreen</item>
+        <item>@color/selfieButtonMagenta</item>
+        <item>@color/selfieButtonOrange</item>
+        <item>@color/selfieButtonPurple</item>
+        <item>@color/selfieButtonRed</item>
+        <item>@color/selfieButtonYellow</item>
+    </integer-array>
+    <integer-array name="page_colors">
+        <item>@color/selfieDarkBlue</item>
+        <item>@color/selfieDarkGreen</item>
+        <item>@color/selfieDarkPurple</item>
+        <item>@color/selfieGreen</item>
+        <item>@color/selfieMagenta</item>
+        <item>@color/selfieOrange</item>
+        <item>@color/selfiePurple</item>
+        <item>@color/selfieRed</item>
+        <item>@color/selfieYellow</item>
+    </integer-array>
+</resources>
