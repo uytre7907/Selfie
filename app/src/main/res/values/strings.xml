@@ -2,7 +2,8 @@
     <string name="app_name">Selfie</string>
     <string name="welcome_text">Welcome!</string>
     <string name="next">Next</string>
-    <string name="selfie">Selfie</string>
+    <string name="join">Join Selfie!</string>
+    <string name="slogan">See you soon!</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
