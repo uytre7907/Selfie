@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.DrawableContainer;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +39,10 @@ import java.util.TimerTask;
 
 
 public class SignUp extends AppCompatActivity {
+    ImageView available = (ImageView)findViewById(R.id.available);
+    TextView availableUser = (TextView) findViewById(R.id.username_available);
+    ImageView unavailable = (ImageView) findViewById(R.id.unavailable);
+    TextView unavailableUser = (TextView) findViewById(R.id.username_unavailable);
     private ParseQuery<ParseUser> query;
     private TextWatcher usernameTextWatcher = new TextWatcher() {
         @Override
@@ -54,10 +60,18 @@ public class SignUp extends AppCompatActivity {
             //IS VALID (CONTAINS AN @ SIGN, IS 6 CHARACTERS LONG AND HAS A .
             if(s.toString().length()<3) {
                 Log.d("no error", "username DOES exist");
+                unavailable.setVisibility(View.VISIBLE);
+                unavailableUser.setVisibility(View.VISIBLE);
+                available.setVisibility(View.GONE);
+                availableUser.setVisibility(View.GONE);
                 //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
             }
             else{
                 Log.d("searching", "searching for availability");
+                unavailable.setVisibility(View.VISIBLE);
+                unavailableUser.setVisibility(View.VISIBLE);
+                available.setVisibility(View.GONE);
+                availableUser.setVisibility(View.GONE);
                 //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO A SEARCHING STATE
                 if(query!=null) {
                     query.cancel();
@@ -70,15 +84,27 @@ public class SignUp extends AppCompatActivity {
                             if(e==null) {
                                 if(objects.size()==0) {
                                     Log.d("error", "username does not exist3");
+                                    available.setVisibility(View.VISIBLE);
+                                    availableUser.setVisibility(View.VISIBLE);
+                                    unavailableUser.setVisibility(View.GONE);
+                                    unavailable.setVisibility(View.GONE);
                                     //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN AVAILABLE STATE
                                 }
                                 else{
                                     Log.d("no error", "username does exist");
+                                    unavailable.setVisibility(View.VISIBLE);
+                                    unavailableUser.setVisibility(View.VISIBLE);
+                                    available.setVisibility(View.GONE);
+                                    availableUser.setVisibility(View.GONE);
                                     //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
                                 }
                             }
                             else{
                                 Log.d("error", "username does exist2");
+                                unavailable.setVisibility(View.VISIBLE);
+                                unavailableUser.setVisibility(View.VISIBLE);
+                                available.setVisibility(View.GONE);
+                                availableUser.setVisibility(View.GONE);
                                 //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
                             }
                         }
@@ -139,6 +165,10 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        available.setVisibility(View.GONE);
+        availableUser.setVisibility(View.GONE);
+        unavailable.setVisibility(View.GONE);
+        unavailableUser.setVisibility(View.GONE);
         initializeText();
     }
 

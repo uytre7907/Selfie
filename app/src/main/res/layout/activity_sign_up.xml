@@ -33,7 +33,7 @@
         android:id="@+id/sign_up_button"
         android:onClick="secondClickFunction"
         android:textColor="@color/tw__solid_white"
-        android:layout_below="@+id/username_edit"
+        android:layout_below="@+id/available"
         android:layout_alignLeft="@+id/email_edit"
         android:layout_alignStart="@+id/email_edit"
         android:layout_alignRight="@+id/email_edit"
@@ -65,6 +65,26 @@
         android:layout_alignRight="@+id/email_edit"
         android:layout_alignEnd="@+id/email_edit"
         android:layout_alignTop="@+id/height_anchor_for_image" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/available"
+        android:src= "@drawable/available"
+        android:layout_below="@+id/username_edit"
+        android:layout_alignLeft="@+id/username_edit"
+        android:layout_alignStart="@+id/username_edit"
+        android:layout_toStartOf="@+id/see_you_soon"
+        android:layout_toLeftOf="@+id/see_you_soon" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/unavailable"
+        android:src= "@drawable/unavailable"
+        android:layout_below="@+id/username_edit"
+        android:layout_alignLeft="@+id/username_edit"
+        android:layout_alignStart="@+id/username_edit"
+        android:layout_toStartOf="@+id/see_you_soon"
+        android:layout_toLeftOf="@+id/see_you_soon" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -122,7 +142,29 @@
             android:hint=" Requested Username"
             android:background="@drawable/my_edittext"
             android:inputType="text"
+            android:maxLength="16"
             android:contentDescription="Username" />
 
     </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/username_available"
+        android:layout_above="@+id/sign_up_button"
+        android:layout_below="@+id/username_edit"
+        android:layout_toRightOf="@+id/available"
+        android:layout_alignRight="@+id/sign_up_button"
+        android:layout_alignEnd="@+id/sign_up_button"
+        android:text="Username Available" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/username_unavailable"
+        android:layout_above="@+id/sign_up_button"
+        android:layout_below="@+id/username_edit"
+        android:layout_toRightOf="@+id/available"
+        android:layout_alignRight="@+id/sign_up_button"
+        android:layout_alignEnd="@+id/sign_up_button"
+        android:text="Username Unavailable" />
 </RelativeLayout>
