@@ -50,7 +50,6 @@
         android:layout_above="@+id/second_page_center"
         android:layout_centerHorizontal="true"
         />
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

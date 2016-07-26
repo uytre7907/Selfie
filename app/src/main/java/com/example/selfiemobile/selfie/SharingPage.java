@@ -69,7 +69,7 @@ public class SharingPage extends AppCompatActivity {
 
     public void facebook(View view)
     {
-
+        //TEJAS WE NEED TO FIX THIS
         ShareLinkContent content = new ShareLinkContent.Builder()
                 .setContentUrl(Uri.parse("joinselfie.com"))
                 .setContentDescription("Add me at " + SignUp.getUsername() + " on Selfie!")
