@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +59,8 @@ public class WelcomePage extends AppCompatActivity {
         TextView selfieMessage = (TextView) findViewById(R.id.welcome_welcome);
         selfieMessage.setTypeface(helvetica);
         initializeDigits();
+        EditText dummy = (EditText) findViewById(R.id.dummy_edit_text);
+        dummy.setVisibility(View.GONE);
     }
 
     @Override
