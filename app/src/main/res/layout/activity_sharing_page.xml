@@ -42,10 +42,10 @@
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginRight="4dp"
         android:id="@+id/facebook_image"
         android:src = "@drawable/facebookwhite"
         android:onClick="facebook"
+        android:layout_marginTop="43dp"
         android:layout_below="@+id/thank_message"
         android:layout_toLeftOf="@+id/dummy"
         android:layout_toStartOf="@+id/dummy" />
@@ -53,11 +53,10 @@
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginTop="3dp"
         android:id="@+id/twitter_image"
-        android:src = "@drawable/twitter_logo"
+        android:src = "@drawable/twitter_rectangle"
         android:onClick="twitter"
-        android:layout_below="@+id/thank_message"
+        android:layout_alignTop="@+id/facebook_image"
         android:layout_toRightOf="@+id/dummy"
         android:layout_toEndOf="@+id/dummy" />
 

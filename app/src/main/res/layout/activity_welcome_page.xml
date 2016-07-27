@@ -57,12 +57,12 @@
         android:contentDescription="The logo"
         android:id="@+id/welcome_logo"
         android:src = "@drawable/selfie_icon_white"
-        android:layout_above="@+id/welcome_welcome"
-        android:layout_alignLeft="@+id/welcome_welcome"
-        android:layout_alignStart="@+id/welcome_welcome"
-        android:layout_alignRight="@+id/welcome_welcome"
-        android:layout_alignEnd="@+id/welcome_welcome"
-        android:layout_alignTop="@+id/height_anchor_for_image" />
+        android:layout_alignTop="@+id/height_anchor_for_image"
+        android:layout_alignRight="@+id/button_edit"
+        android:layout_alignEnd="@+id/button_edit"
+        android:layout_alignLeft="@+id/button_edit"
+        android:layout_alignStart="@+id/button_edit"
+        android:layout_above="@+id/selfie" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
