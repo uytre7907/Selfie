@@ -84,6 +84,7 @@ public class WelcomePage extends AppCompatActivity {
         backgroundAnimator.schedule(backgroundAnimator.new updateBackgroundTask(), getResources().getInteger(R.integer.animation_transition_length),
                 getResources().getInteger(R.integer.animation_stay_length));
     }
+
     private void initializeDigits()
     {
         DigitsAuthConfig.Builder temp = new DigitsAuthConfig.Builder();
