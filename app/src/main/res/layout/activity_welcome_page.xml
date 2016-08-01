@@ -25,7 +25,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="218dp"
         android:layout_height="wrap_content"
         android:text="@string/next"
         android:id="@+id/welcome_button"
@@ -34,11 +34,9 @@
         android:shadowColor="#007AFF"
         android:gravity="center"
         android:onClick="clickFunction"
-        android:layout_below="@+id/button_edit"
-        android:layout_alignRight="@+id/button_edit"
-        android:layout_alignEnd="@+id/button_edit"
-        android:layout_alignLeft="@+id/button_edit"
-        android:layout_alignStart="@+id/button_edit" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/dummy_edit_text"
+        />
     <Space
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -76,26 +74,17 @@
         android:textStyle="bold"
         android:layout_above="@+id/welcome_welcome"
         android:layout_centerHorizontal="true" />
-    <FrameLayout
-        android:layout_below="@+id/welcome_welcome"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/button_edit"
 
-        android:background="@drawable/my_edittext"
+    <EditText
+        android:layout_height="0dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp">
-        <EditText
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="2dp"
-            android:background="@drawable/my_edittext"
-            android:id="@+id/dummy_edit_text"
-            android:hint=" Email"
-            android:contentDescription="Email"
-            android:inputType="textEmailAddress"
-            android:ems="10"/>
-
-    </FrameLayout>
+        android:background="@drawable/my_edittext"
+        android:id="@+id/dummy_edit_text"
+        android:hint=" Email"
+        android:contentDescription="Email"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:layout_below="@+id/welcome_welcome"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

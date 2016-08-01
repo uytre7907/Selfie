@@ -4,6 +4,7 @@
     android:id="@+id/sign_up_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/tw__composer_black"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -27,17 +28,15 @@
 
     <Button
         android:background="@drawable/round_button"
-        android:layout_width="wrap_content"
+        android:layout_width="218dp"
         android:layout_height="wrap_content"
         android:text="@string/join"
         android:id="@+id/sign_up_button"
         android:onClick="secondClickFunction"
         android:textColor="@color/tw__solid_white"
-        android:layout_below="@+id/available"
+        android:layout_below="@+id/username_layout"
         android:layout_alignLeft="@+id/email_edit"
-        android:layout_alignStart="@+id/email_edit"
-        android:layout_alignRight="@+id/email_edit"
-        android:layout_alignEnd="@+id/email_edit" />
+        android:layout_alignStart="@+id/email_edit"/>
 
     <Space
         android:layout_width="0dp"
@@ -65,26 +64,6 @@
         android:layout_alignRight="@+id/email_edit"
         android:layout_alignEnd="@+id/email_edit"
         android:layout_alignTop="@+id/height_anchor_for_image" />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/available"
-        android:src= "@drawable/available"
-        android:layout_below="@+id/username_edit"
-        android:layout_alignLeft="@+id/username_edit"
-        android:layout_alignStart="@+id/username_edit"
-        android:layout_toStartOf="@+id/see_you_soon"
-        android:layout_toLeftOf="@+id/see_you_soon" />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/unavailable"
-        android:src= "@drawable/unavailable"
-        android:layout_below="@+id/username_edit"
-        android:layout_alignLeft="@+id/username_edit"
-        android:layout_alignStart="@+id/username_edit"
-        android:layout_toStartOf="@+id/see_you_soon"
-        android:layout_toLeftOf="@+id/see_you_soon" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -121,50 +100,58 @@
             android:ems="10"/>
 
     </FrameLayout>
-    <FrameLayout
 
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/username_edit"
-        android:background="@drawable/my_edittext"
-        android:layout_marginBottom="12dp"
+        android:id="@+id/username_layout"
         android:layout_below="@+id/email_edit"
         android:layout_alignLeft="@+id/sign_up_button"
         android:layout_alignStart="@+id/sign_up_button"
         android:layout_alignRight="@+id/email_edit"
         android:layout_alignEnd="@+id/email_edit">
-
-        <EditText
-            android:id="@+id/username_edit_text"
-            android:layout_height="match_parent"
+        <FrameLayout
+            android:layout_alignParentTop="true"
             android:layout_width="match_parent"
-            android:layout_marginLeft="2dp"
-            android:hint=" Requested Username"
+            android:layout_height="wrap_content"
+            android:id="@+id/username_edit"
             android:background="@drawable/my_edittext"
-            android:inputType="text"
-            android:maxLength="16"
-            android:contentDescription="Username" />
+            android:layout_marginBottom="2dp"
+            >
 
-    </FrameLayout>
+            <EditText
+                android:id="@+id/username_edit_text"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="2dp"
+                android:hint=" Requested Username"
+                android:background="@drawable/my_edittext"
+                android:inputType="text"
+                android:maxLength="16"
+                android:contentDescription="Username" />
+        </FrameLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/image_availability_view"
+            android:src= "@drawable/unavailable"
+            android:contentDescription="Availability image"
+            android:layout_below="@+id/username_edit"
+            android:layout_marginRight="2dp"
+            android:layout_alignBottom="@+id/username_availability_view"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/username_available"
-        android:layout_above="@+id/sign_up_button"
-        android:layout_below="@+id/username_edit"
-        android:layout_toRightOf="@+id/available"
-        android:layout_alignRight="@+id/sign_up_button"
-        android:layout_alignEnd="@+id/sign_up_button"
-        android:text="Username Available" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/username_unavailable"
-        android:layout_above="@+id/sign_up_button"
-        android:layout_below="@+id/username_edit"
-        android:layout_toRightOf="@+id/available"
-        android:layout_alignRight="@+id/sign_up_button"
-        android:layout_alignEnd="@+id/sign_up_button"
-        android:text="Username Unavailable" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/username_availability_view"
+            android:text="Username Unavailable"
+            android:layout_gravity="center"
+            android:layout_below="@+id/username_edit"
+            android:textColor="@color/tw__solid_white"
+            android:layout_toRightOf="@+id/image_availability_view"
+            android:layout_toEndOf="@+id/image_availability_view" />
+    </RelativeLayout>
+
 </RelativeLayout>

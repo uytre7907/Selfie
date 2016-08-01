@@ -97,8 +97,6 @@ public class WelcomePage extends AppCompatActivity {
                 query.whereEqualTo("authToken", (session.getAuthToken()+"").substring(6, (session.getAuthToken()+"").indexOf(",secret=")));
                 query.findInBackground(new FindCallback<ParseUser>() {
                     public void done(List<ParseUser> objects, ParseException e) {
-
-                        user=objects.get(0);
                         if(e==null) {
                             if(objects.size()==0) {
                                 Log.d("query", "nothing found");
@@ -106,6 +104,7 @@ public class WelcomePage extends AppCompatActivity {
                             }
                             else{
                                 Log.d("query", "found");
+                                user=objects.get(0);
                                 nextClass=SharingPage.class;
                             }
                         }

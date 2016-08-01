@@ -35,7 +35,8 @@
             android:authorities="com.facebook.app.FacebookContentProvider1399065600338856"
             android:exported="true" />
 
-        <activity android:name=".SignUp" />
+        <activity android:name=".SignUp"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity android:name=".SharingPage"></activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
