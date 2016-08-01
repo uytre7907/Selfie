@@ -71,7 +71,7 @@ public class WelcomePage extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        App.setAppBackgroundAnimator(new BackgroundAnimator());
+        App.setAppBackgroundAnimator(new BackgroundAnimator(true));
         backgroundAnimator=App.getAppBackgroundAnimator();
         initializeBackgroundAnimator();
     }

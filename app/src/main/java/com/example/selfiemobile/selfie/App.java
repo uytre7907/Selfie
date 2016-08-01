@@ -12,7 +12,7 @@ import com.parse.Parse;
 public class App extends Application {
 
 
-    private static BackgroundAnimator backgroundAnimator=new BackgroundAnimator();
+    private static BackgroundAnimator backgroundAnimator=new BackgroundAnimator(true);
     @Override public void onCreate() {
         super.onCreate();
 

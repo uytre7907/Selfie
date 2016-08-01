@@ -45,6 +45,10 @@ public class SignUp extends AppCompatActivity {
     private ImageView availabilityImage;
     private TextView availabilityText;
     private ParseQuery<ParseUser> query;
+    private BackgroundAnimator backgroundAnimator;
+    private static String username;
+    private static String email;
+    private boolean usernameAvailable;
     private TextWatcher usernameTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -61,14 +65,18 @@ public class SignUp extends AppCompatActivity {
             //IS VALID (CONTAINS AN @ SIGN, IS 6 CHARACTERS LONG AND HAS A .
             if(s.toString().length()<3) {
                 Log.d("no error", "username DOES exist");
+                usernameAvailable=false;
                 availabilityText.setText("Username Unavailable");
                 availabilityImage.setImageResource(R.drawable.unavailable);
+                backgroundAnimator.deactivateButton();
                 //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
             }
             else{
                 Log.d("searching", "searching for availability");
-                availabilityText.setText("Username Unavailable");
+                usernameAvailable=false;
+                availabilityText.setText("Searching");
                 availabilityImage.setImageResource(R.drawable.unavailable);
+                backgroundAnimator.deactivateButton();
                 //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO A SEARCHING STATE
                 if(query!=null) {
                     query.cancel();
@@ -81,21 +89,27 @@ public class SignUp extends AppCompatActivity {
                             if(e==null) {
                                 if(objects.size()==0) {
                                     Log.d("error", "username does not exist3");
+                                    usernameAvailable=true;
                                     availabilityText.setText("Username Available");
                                     availabilityImage.setImageResource(R.drawable.available);
+                                    backgroundAnimator.activateButton();
                                     //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN AVAILABLE STATE
                                 }
                                 else{
                                     Log.d("no error", "username does exist");
+                                    usernameAvailable=false;
                                     availabilityText.setText("Username Unavailable");
                                     availabilityImage.setImageResource(R.drawable.unavailable);
+                                    backgroundAnimator.deactivateButton();
                                     //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
                                 }
                             }
                             else{
                                 Log.d("error", "username does exist2");
+                                usernameAvailable=false;
                                 availabilityText.setText("Username Unavailable");
                                 availabilityImage.setImageResource(R.drawable.unavailable);
+                                backgroundAnimator.deactivateButton();
                                 //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
                             }
                         }
@@ -147,9 +161,7 @@ public class SignUp extends AppCompatActivity {
 
         }
     };
-    private BackgroundAnimator backgroundAnimator;
-    private static String username;
-    private static String email;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -195,10 +207,10 @@ public class SignUp extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        App.setAppBackgroundAnimator(new BackgroundAnimator());
+        App.setAppBackgroundAnimator(new BackgroundAnimator(false));
         backgroundAnimator=App.getAppBackgroundAnimator();
         initializeBackgroundAnimator();
-
+        backgroundAnimator.deactivateButton();
     }
     private void initializeBackgroundAnimator()
     {
@@ -244,13 +256,14 @@ public class SignUp extends AppCompatActivity {
 
             user.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {
-                    if (e == null) {
+                    if (e == null&&usernameAvailable) {
                         startActivity(new Intent(SignUp.this, SharingPage.class));
                         Log.i("Username", username);
                         Log.i("Info", "Button Tapped, Selfie Joined");
                     } else {
                         // Sign up didn't succeed. Look at the ParseException
                         // to figure out what went wrong
+                        Log.i("Failure", "account exists");
                     }
                 }
             });

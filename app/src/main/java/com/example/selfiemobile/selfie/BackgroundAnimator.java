@@ -3,6 +3,7 @@ package com.example.selfiemobile.selfie;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.DrawableContainer;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -23,25 +24,28 @@ public class BackgroundAnimator extends Timer
     private Activity activity;
     private RelativeLayout layout;
     private Button button;
+    private static int buttonGray = R.color.tw__light_gray;
     private static int[] buttonColors =    {R.color.selfieButtonDarkBlue, R.color.selfieButtonDarkGreen, R.color.selfieButtonDarkPurple,
             R.color.selfieButtonGreen, R.color.selfieButtonMagenta, R.color.selfieButtonOrange, R.color.selfieButtonPurple,
             R.color.selfieButtonRed, R.color.selfieButtonYellow};
     private static int[] colors =    {R.color.selfieDarkBlue, R.color.selfieDarkGreen, R.color.selfieDarkPurple,
             R.color.selfieGreen, R.color.selfieMagenta, R.color.selfieOrange, R.color.selfiePurple,
             R.color.selfieRed, R.color.selfieYellow};
-
+    private boolean buttonIsActivated;
     private static int index=randInt(0, colors.length-1);
+    private ValueAnimator buttonColorAnimation;
     public BackgroundAnimator(Activity a, RelativeLayout l, Button b)
     {
+        this(true);
         activity=a;
 
         layout=l;
         button=b;
         initializeBackgroundColor();
     }
-    public BackgroundAnimator()
+    public BackgroundAnimator(boolean buttonActivated)
     {
-
+        buttonIsActivated=buttonActivated;
     }
 
     public Activity getActivity() {
@@ -90,7 +94,7 @@ public class BackgroundAnimator extends Timer
             }
 
         });
-        ValueAnimator buttonColorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), buttonColorFrom, buttonColorTo);
+        buttonColorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), buttonColorFrom, buttonColorTo);
         buttonColorAnimation.setDuration(activity.getResources().getInteger(R.integer.animation_transition_length)); // milliseconds
         buttonColorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -98,11 +102,18 @@ public class BackgroundAnimator extends Timer
                 if (button != null) {
                     GradientDrawable buttonDrawable = (GradientDrawable) ((DrawableContainer.DrawableContainerState) ((StateListDrawable)
                             (button.getBackground())).getConstantState()).getChildren()[0];
-                    buttonDrawable.setColor((int) animator.getAnimatedValue());
-                    buttonDrawable.setStroke(1, (int) animator.getAnimatedValue());
+                    if(buttonIsActivated) {
+                        buttonDrawable.setColor((int) animator.getAnimatedValue());
+                        buttonDrawable.setStroke(1, (int) animator.getAnimatedValue());
+                    }
+                    else{
+                        buttonDrawable.setColor(ContextCompat.getColor(activity.getApplicationContext(), buttonGray));
+                        buttonDrawable.setStroke(1, ContextCompat.getColor(activity.getApplicationContext(), buttonGray));
+                    }
                 }
             }
         });
+
         buttonColorAnimation.start();
         colorAnimation.start();
         index = newIndex;
@@ -113,8 +124,14 @@ public class BackgroundAnimator extends Timer
         if (button != null) {
             GradientDrawable buttonDrawable = (GradientDrawable) ((DrawableContainer.DrawableContainerState) ((StateListDrawable)
                     (button.getBackground())).getConstantState()).getChildren()[0];
-            buttonDrawable.setColor(ContextCompat.getColor(activity.getApplicationContext(), buttonColors[index]));
-            buttonDrawable.setStroke(1, ContextCompat.getColor(activity.getApplicationContext(), buttonColors[index]));
+            if(buttonIsActivated) {
+                buttonDrawable.setColor(ContextCompat.getColor(activity.getApplicationContext(), buttonColors[index]));
+                buttonDrawable.setStroke(1, ContextCompat.getColor(activity.getApplicationContext(), buttonColors[index]));
+            }
+            else{
+                buttonDrawable.setColor(ContextCompat.getColor(activity.getApplicationContext(), buttonGray));
+                buttonDrawable.setStroke(1, ContextCompat.getColor(activity.getApplicationContext(), buttonGray));
+            }
         }
     }
     public class updateBackgroundTask extends TimerTask {
@@ -128,5 +145,17 @@ public class BackgroundAnimator extends Timer
             });
         }
     }
-
+    public void activateButton() {
+        buttonIsActivated = true;
+        if (buttonColorAnimation!=null && !(buttonColorAnimation.isRunning())){
+            GradientDrawable buttonDrawable = (GradientDrawable) ((DrawableContainer.DrawableContainerState) ((StateListDrawable)
+                    (button.getBackground())).getConstantState()).getChildren()[0];
+            buttonDrawable.setColor(ContextCompat.getColor(activity.getApplicationContext(), buttonColors[index]));
+            buttonDrawable.setStroke(1, ContextCompat.getColor(activity.getApplicationContext(), buttonColors[index]));
+        }
+    }
+    public void deactivateButton()
+    {
+        buttonIsActivated=false;
+    }
 }

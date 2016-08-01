@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -53,7 +54,7 @@ public class SharingPage extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        App.setAppBackgroundAnimator(new BackgroundAnimator());
+        App.setAppBackgroundAnimator(new BackgroundAnimator(true));
         backgroundAnimator=App.getAppBackgroundAnimator();
         initializeBackgroundAnimator();
     }
@@ -67,21 +68,29 @@ public class SharingPage extends AppCompatActivity {
                 getResources().getInteger(R.integer.animation_stay_length));
     }
 
-    public void facebook(View view)
-    {
+    public void facebook(View view) {
         //TEJAS WE NEED TO FIX THIS
-        ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse("joinselfie.com"))
-                .setContentDescription("Add me at " + SignUp.getUsername() + " on Selfie!")
-                .setContentTitle("Download Selfie today!")
-                .build();
-        ShareDialog shareDialog = new ShareDialog(this);
-        shareDialog.show(content, ShareDialog.Mode.AUTOMATIC);
+        if (WelcomePage.getUser() != null) {
+            ShareLinkContent content = new ShareLinkContent.Builder()
+                    .setContentUrl(Uri.parse("joinselfie.com"))
+                    .setContentDescription("Add me at " + SignUp.getUsername() + " on Selfie!")
+                    .setContentTitle("Download Selfie today!")
+                    .build();
+            ShareDialog shareDialog = new ShareDialog(this);
+            shareDialog.show(content, ShareDialog.Mode.AUTOMATIC);
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_SHORT);
+        }
     }
     public void twitter(View view) {
-        Fabric.with(this, new TwitterCore(authConfig), new TweetComposer());
-        TweetComposer.Builder builder = new TweetComposer.Builder(this)
-                .text("Add me at " + SignUp.getUsername() + " on Selfie! #selfie #getconnected");
-        builder.show();
+        if(WelcomePage.getUser()!=null) {
+            Fabric.with(this, new TwitterCore(authConfig), new TweetComposer());
+            TweetComposer.Builder builder = new TweetComposer.Builder(this).text("Add me at " + SignUp.getUsername() + " on Selfie! #selfie #getconnected");
+            builder.show();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_SHORT);
+        }
     }
 }
