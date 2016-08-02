@@ -21,6 +21,8 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -74,8 +76,8 @@ public class SharingPage extends AppCompatActivity {
         if (WelcomePage.getUser() != null) {
             Log.d("Facebook", "reached");
             ShareLinkContent content = new ShareLinkContent.Builder()
-                    .setContentUrl(Uri.parse("joinselfie.com"))
-                    .setContentDescription("Add me at " + SignUp.getUsername() + " on Selfie!")
+                    .setContentUrl(Uri.parse("http://bnc.lt/Selfie"))
+                    .setContentDescription("Just registered as " + SignUp.getUsername() + " on Selfie!")
                     .setContentTitle("Download Selfie today!")
                     .build();
             ShareDialog shareDialog = new ShareDialog(this);
@@ -92,8 +94,14 @@ public class SharingPage extends AppCompatActivity {
         if(WelcomePage.getUser()!=null) {
             Log.d("Twitter", "reached");
             Fabric.with(this, new TwitterCore(authConfig), new TweetComposer());
-            TweetComposer.Builder builder = new TweetComposer.Builder(this).text("Add me at " + SignUp.getUsername() + " on Selfie! #selfie #getconnected");
-            builder.show();
+            try {
+                TweetComposer.Builder builder = new TweetComposer.Builder(this).text("Just requested the username " + SignUp.getUsername() + " on Selfie!")
+                        .url(new URL("http://bnc.lt/Selfie"));
+                builder.show();
+            }
+            catch(MalformedURLException e){
+                e.printStackTrace();
+            }
         }
         else{
             Toast t=Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_SHORT);

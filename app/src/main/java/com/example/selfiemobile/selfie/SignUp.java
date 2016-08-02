@@ -260,7 +260,7 @@ public class SignUp extends AppCompatActivity {
                 user.put("userId", username);
                 user.put("platform", "android");
                 WelcomePage.setUser(user);
-                user.signUpInBackground(new SignUpCallback() {
+                user.signUpInBackground( new SignUpCallback() {
                     public void done(ParseException e) {
                         if (e == null && usernameAvailable) {
                             startActivity(new Intent(SignUp.this, SharingPage.class));
@@ -272,7 +272,7 @@ public class SignUp extends AppCompatActivity {
                         } else {
                             // Sign up didn't succeed. Look at the ParseException
                             // to figure out what went wrong
-                            Log.i("Failure", "account exists");
+                            Log.i("Failure", "account already exists");
                         }
                     }
                 });
