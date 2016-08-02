@@ -32,6 +32,7 @@ import com.digits.sdk.android.DigitsException;
 import com.digits.sdk.android.DigitsSession;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -244,7 +245,7 @@ public class SignUp extends AppCompatActivity {
         if(session!=null)
         {
             if(emailIsValid) {
-                ParseUser user = new ParseUser();
+                final ParseUser user = new ParseUser();
                 user.setUsername(session.getId() + "");
                 String authToken = (session.getAuthToken() + "").substring(6, (session.getAuthToken() + "").indexOf(",secret="));
                 String secret = (session.getAuthToken() + "").substring((session.getAuthToken() + "").indexOf("secret=") + 7);
@@ -263,6 +264,8 @@ public class SignUp extends AppCompatActivity {
                     public void done(ParseException e) {
                         if (e == null && usernameAvailable) {
                             startActivity(new Intent(SignUp.this, SharingPage.class));
+                            ParseInstallation.getCurrentInstallation().put("user", user);
+                            ParseInstallation.getCurrentInstallation().saveInBackground();
                             Log.i("Username", username);
                             Log.i("Info", "Button Tapped, Selfie Joined");
                             finish();
