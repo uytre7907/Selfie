@@ -85,12 +85,24 @@ public class SignUp extends AppCompatActivity {
 
             username = s.toString();
             if (s.toString().length() < 3) {
-                Log.d("no error", "username DOES exist");
-                usernameAvailable = false;
-                availabilityText.setText("Username Unavailable");
-                availabilityImage.setImageResource(R.drawable.unavailable);
-                backgroundAnimator.deactivateButton();
-                //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
+                TextView usernameAvailability = (TextView)(findViewById(R.id.username_availability_view));
+                ImageView imageAvailability = (ImageView)(findViewById(R.id.image_availability_view));
+                if(s.toString().length()==0)
+                {
+                    usernameAvailability.setVisibility(View.INVISIBLE);
+                    imageAvailability.setVisibility(View.INVISIBLE);
+
+                }
+                else {
+                    usernameAvailability.setVisibility(View.VISIBLE);
+                    imageAvailability.setVisibility(View.VISIBLE);
+                    Log.d("no error", "username DOES exist");
+                    usernameAvailable = false;
+                    availabilityText.setText("Username Unavailable");
+                    availabilityImage.setImageResource(R.drawable.unavailable);
+                    backgroundAnimator.deactivateButton();
+                    //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
+                }
             } else {
                 Log.d("searching", "searching for availability");
                 usernameAvailable = false;
@@ -204,11 +216,19 @@ public class SignUp extends AppCompatActivity {
         TextView selfieName = (TextView) findViewById(R.id.selfie_name);
         EditText emailEdit = (EditText) findViewById(R.id.email_edit_text);
         EditText usernameEdit = (EditText) findViewById(R.id.username_edit_text);
+        TextView usernameAvailability = (TextView)(findViewById(R.id.username_availability_view));
+        ImageView imageAvailability = (ImageView)(findViewById(R.id.image_availability_view));
         Typeface helvetica = Typeface.createFromAsset(getAssets(), "HelveticaNeue.ttf");
         welcomeMessage.setTypeface(helvetica);
         emailEdit.setTypeface(helvetica);
         usernameEdit.setTypeface(helvetica);
         selfieName.setTypeface(helvetica);
+        usernameAvailability.setTypeface(helvetica);
+        usernameAvailability.setVisibility(View.INVISIBLE);
+        imageAvailability.setVisibility(View.INVISIBLE);
+        emailEdit.setHintTextColor(ContextCompat.getColor(getApplicationContext(), R.color.tw__composer_light_gray));
+        usernameEdit.setHintTextColor(ContextCompat.getColor(getApplicationContext(), R.color.tw__composer_light_gray));
+
         ArrayList<InputFilter> curInputFilters = new ArrayList<InputFilter>(Arrays.asList(usernameEdit.getFilters()));
         curInputFilters.add(0, new AlphaNumericInputFilter());
         curInputFilters.add(1, new InputFilter.LengthFilter(16));

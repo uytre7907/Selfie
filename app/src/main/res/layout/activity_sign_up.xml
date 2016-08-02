@@ -34,10 +34,17 @@
         android:id="@+id/sign_up_button"
         android:onClick="secondClickFunction"
         android:textColor="@color/tw__solid_white"
+        android:layout_marginTop="12dp"
         android:layout_below="@+id/username_layout"
         android:layout_alignLeft="@+id/email_edit"
         android:layout_alignStart="@+id/email_edit"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:layout_below="@+id/username_layout"
+        android:id="@+id/dummy_for_button"
 
+        />
     <Space
         android:layout_width="0dp"
         android:layout_height="0dp"
