@@ -33,8 +33,6 @@ public class SharingPage extends AppCompatActivity {
     private BackgroundAnimator backgroundAnimator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sharing_page);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,

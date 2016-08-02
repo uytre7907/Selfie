@@ -127,7 +127,6 @@
                 android:hint=" Requested Username"
                 android:background="@drawable/my_edittext"
                 android:inputType="text"
-                android:maxLength="16"
                 android:contentDescription="Username" />
         </FrameLayout>
         <ImageView

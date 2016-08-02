@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -36,6 +37,8 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.twitter.sdk.android.core.AuthToken;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -58,7 +61,8 @@ public class SignUp extends AppCompatActivity {
         @Override
         public void afterTextChanged(Editable s) {
             email = s.toString();
-            emailIsValid=email.contains("@")&&email.contains(".")&&email.length()>=7;
+            emailIsValid=email.length()>=6&&email.contains("@")&&email.contains(".")&&(email.indexOf('.')-email.indexOf('@')>1)&&email.charAt(0)!='@'
+                    &&email.charAt(email.length()-1)!='.';
             Log.d("EmailValidity", emailIsValid+"");
             if(emailIsValid&&usernameAvailable)
             {
@@ -78,64 +82,59 @@ public class SignUp extends AppCompatActivity {
         public void afterTextChanged(Editable s) {
             //TEJAS - HERE YOU NEED TO ADD A LITTLE IMAGE AND TEXT THAT CHANGE ACCORDING TO THE AVAILABILITY OF THE USERNAME AND IF THE EMALIL
             //IS VALID (CONTAINS AN @ SIGN, IS 6 CHARACTERS LONG AND HAS A .
-            if(s.toString().contains(" "))
-            {
-                s.replace(s.toString().indexOf(' '), s.toString().indexOf(' ')+1, "");
-            }
-            else {
-                username=s.toString();
-                if (s.toString().length() < 3) {
-                    Log.d("no error", "username DOES exist");
-                    usernameAvailable = false;
-                    availabilityText.setText("Username Unavailable");
-                    availabilityImage.setImageResource(R.drawable.unavailable);
-                    backgroundAnimator.deactivateButton();
-                    //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
-                } else {
-                    Log.d("searching", "searching for availability");
-                    usernameAvailable = false;
-                    availabilityText.setText("Searching");
-                    availabilityImage.setImageResource(R.drawable.unavailable);
-                    backgroundAnimator.deactivateButton();
-                    //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO A SEARCHING STATE
-                    if (query != null) {
-                        query.cancel();
-                    }
-                    query = ParseUser.getQuery();
-                    query.whereEqualTo("userId", s.toString());
-                    query.findInBackground(new FindCallback<ParseUser>() {
-                        public void done(List<ParseUser> objects, ParseException e) {
 
-                            if (e == null) {
-                                EditText usernameEdit = (EditText)findViewById(R.id.username_edit_text);
-                                //TO CATCH THE LATENCY OF THE QUERY
-                                if (objects.size() == 0&&usernameEdit.getText().toString().length()>=3) {
-                                    Log.d("error", "username does not exist3");
-                                    usernameAvailable = true;
-                                    availabilityText.setText("Username Available");
-                                    availabilityImage.setImageResource(R.drawable.available);
-                                    if(emailIsValid)
-                                        backgroundAnimator.activateButton();
-                                    //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN AVAILABLE STATE
-                                } else {
-                                    Log.d("no error", "username does exist");
-                                    usernameAvailable = false;
-                                    availabilityText.setText("Username Unavailable");
-                                    availabilityImage.setImageResource(R.drawable.unavailable);
-                                    backgroundAnimator.deactivateButton();
-                                    //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
-                                }
+            username = s.toString();
+            if (s.toString().length() < 3) {
+                Log.d("no error", "username DOES exist");
+                usernameAvailable = false;
+                availabilityText.setText("Username Unavailable");
+                availabilityImage.setImageResource(R.drawable.unavailable);
+                backgroundAnimator.deactivateButton();
+                //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
+            } else {
+                Log.d("searching", "searching for availability");
+                usernameAvailable = false;
+                availabilityText.setText("Searching");
+                availabilityImage.setImageResource(R.drawable.unavailable);
+                backgroundAnimator.deactivateButton();
+                //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO A SEARCHING STATE
+                if (query != null) {
+                    query.cancel();
+                }
+                query = ParseUser.getQuery();
+                query.whereEqualTo("userId", s.toString());
+                query.findInBackground(new FindCallback<ParseUser>() {
+                    public void done(List<ParseUser> objects, ParseException e) {
+
+                        if (e == null) {
+                            EditText usernameEdit = (EditText) findViewById(R.id.username_edit_text);
+                            //TO CATCH THE LATENCY OF THE QUERY
+                            if (objects.size() == 0 && usernameEdit.getText().toString().length() >= 3) {
+                                Log.d("error", "username does not exist3");
+                                usernameAvailable = true;
+                                availabilityText.setText("Username Available");
+                                availabilityImage.setImageResource(R.drawable.available);
+                                if (emailIsValid)
+                                    backgroundAnimator.activateButton();
+                                //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN AVAILABLE STATE
                             } else {
-                                Log.d("error", "username does exist2");
+                                Log.d("no error", "username does exist");
                                 usernameAvailable = false;
                                 availabilityText.setText("Username Unavailable");
                                 availabilityImage.setImageResource(R.drawable.unavailable);
                                 backgroundAnimator.deactivateButton();
                                 //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
                             }
+                        } else {
+                            Log.d("error", "username does exist2");
+                            usernameAvailable = false;
+                            availabilityText.setText("Username Unavailable");
+                            availabilityImage.setImageResource(R.drawable.unavailable);
+                            backgroundAnimator.deactivateButton();
+                            //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
                         }
-                    });
-                }
+                    }
+                });
             }
         }
     };
@@ -210,6 +209,11 @@ public class SignUp extends AppCompatActivity {
         emailEdit.setTypeface(helvetica);
         usernameEdit.setTypeface(helvetica);
         selfieName.setTypeface(helvetica);
+        ArrayList<InputFilter> curInputFilters = new ArrayList<InputFilter>(Arrays.asList(usernameEdit.getFilters()));
+        curInputFilters.add(0, new AlphaNumericInputFilter());
+        curInputFilters.add(1, new InputFilter.LengthFilter(16));
+        InputFilter[] newInputFilters = curInputFilters.toArray(new InputFilter[curInputFilters.size()]);
+        usernameEdit.setFilters(newInputFilters);
         usernameEdit.addTextChangedListener(usernameTextWatcher);
         emailEdit.addTextChangedListener(emailTextWatcher);
     }
@@ -219,7 +223,7 @@ public class SignUp extends AppCompatActivity {
         DigitsSession session=WelcomePage.getDigitsSession();
         if(session!=null)
         {
-            if(email!=null&&email.contains("@")&&email.contains(".")&&email.length()>=7) {
+            if(emailIsValid) {
                 ParseUser user = new ParseUser();
                 user.setUsername(session.getId() + "");
                 String authToken = (session.getAuthToken() + "").substring(6, (session.getAuthToken() + "").indexOf(",secret="));
