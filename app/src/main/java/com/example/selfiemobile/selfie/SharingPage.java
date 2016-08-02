@@ -86,7 +86,8 @@ public class SharingPage extends AppCompatActivity {
         else{
 
             Log.d("Facebook", "reached2");
-            Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_SHORT);
+            Toast t=Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_SHORT);
+            t.show();
         }
     }
     public void twitter(View view) {
@@ -97,7 +98,8 @@ public class SharingPage extends AppCompatActivity {
             builder.show();
         }
         else{
-            Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_SHORT);
+            Toast t=Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_SHORT);
+            t.show();
         }
     }
 }

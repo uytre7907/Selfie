@@ -57,108 +57,68 @@ public class SignUp extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+
         }
 
         @Override
         public void afterTextChanged(Editable s) {
             //TEJAS - HERE YOU NEED TO ADD A LITTLE IMAGE AND TEXT THAT CHANGE ACCORDING TO THE AVAILABILITY OF THE USERNAME AND IF THE EMALIL
             //IS VALID (CONTAINS AN @ SIGN, IS 6 CHARACTERS LONG AND HAS A .
-            if(s.toString().length()<3) {
-                Log.d("no error", "username DOES exist");
-                usernameAvailable=false;
-                availabilityText.setText("Username Unavailable");
-                availabilityImage.setImageResource(R.drawable.unavailable);
-                backgroundAnimator.deactivateButton();
-                //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
+            if(s.toString().contains(" "))
+            {
+                s.replace(s.toString().indexOf(' '), s.toString().indexOf(' ')+1, "");
             }
-            else{
-                Log.d("searching", "searching for availability");
-                usernameAvailable=false;
-                availabilityText.setText("Searching");
-                availabilityImage.setImageResource(R.drawable.unavailable);
-                backgroundAnimator.deactivateButton();
-                //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO A SEARCHING STATE
-                if(query!=null) {
-                    query.cancel();
-                }
+            else {
+                if (s.toString().length() < 3) {
+                    Log.d("no error", "username DOES exist");
+                    usernameAvailable = false;
+                    availabilityText.setText("Username Unavailable");
+                    availabilityImage.setImageResource(R.drawable.unavailable);
+                    backgroundAnimator.deactivateButton();
+                    //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
+                } else {
+                    Log.d("searching", "searching for availability");
+                    usernameAvailable = false;
+                    availabilityText.setText("Searching");
+                    availabilityImage.setImageResource(R.drawable.unavailable);
+                    backgroundAnimator.deactivateButton();
+                    //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO A SEARCHING STATE
+                    if (query != null) {
+                        query.cancel();
+                    }
                     query = ParseUser.getQuery();
                     query.whereEqualTo("userId", s.toString());
                     query.findInBackground(new FindCallback<ParseUser>() {
                         public void done(List<ParseUser> objects, ParseException e) {
 
-                            if(e==null) {
-                                if(objects.size()==0) {
+                            if (e == null) {
+                                if (objects.size() == 0) {
                                     Log.d("error", "username does not exist3");
-                                    usernameAvailable=true;
+                                    usernameAvailable = true;
                                     availabilityText.setText("Username Available");
                                     availabilityImage.setImageResource(R.drawable.available);
                                     backgroundAnimator.activateButton();
                                     //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN AVAILABLE STATE
-                                }
-                                else{
+                                } else {
                                     Log.d("no error", "username does exist");
-                                    usernameAvailable=false;
+                                    usernameAvailable = false;
                                     availabilityText.setText("Username Unavailable");
                                     availabilityImage.setImageResource(R.drawable.unavailable);
                                     backgroundAnimator.deactivateButton();
                                     //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
                                 }
-                            }
-                            else{
+                            } else {
                                 Log.d("error", "username does exist2");
-                                usernameAvailable=false;
+                                usernameAvailable = false;
                                 availabilityText.setText("Username Unavailable");
                                 availabilityImage.setImageResource(R.drawable.unavailable);
                                 backgroundAnimator.deactivateButton();
                                 //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN UNAVAILABLE STATE
                             }
                         }
-                });
-            }
-
-        }
-    };
-    //TEJAS HERE YOU HAVE TO CHANGE THE CONDITION CHECKS FOR EMAIL BECAUSE CURRENTLY IT IS THE SAME AS THE USERNAME
-    private TextWatcher emailTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if(s.toString().length()<3) {
-                Log.d("no error", "username does exist");
-            }
-            else{
-                Log.d("searching", "searching for availability");
-                if(query!=null) {
-                    query.cancel();
+                    });
                 }
-                query = ParseUser.getQuery();
-                query.whereEqualTo("userId", s.toString());
-                query.findInBackground(new FindCallback<ParseUser>() {
-                    public void done(List<ParseUser> objects, ParseException e) {
-
-                        if(e==null) {
-                            if(objects.size()==0) {
-                                Log.d("error", "username does not exist3");
-                            }
-                            else{
-                                Log.d("no error", "username does exist");
-                            }
-                        }
-                        else{
-                            Log.d("error", "username does exist2");
-                        }
-                    }
-                });
             }
-
         }
     };
 
@@ -240,35 +200,41 @@ public class SignUp extends AppCompatActivity {
         DigitsSession session=WelcomePage.getDigitsSession();
         if(session!=null)
         {
-            ParseUser user = new ParseUser();
-            user.setUsername(session.getId()+"");
-            String authToken = (session.getAuthToken()+"").substring(6, (session.getAuthToken()+"").indexOf(",secret="));
-            String secret = (session.getAuthToken()+"").substring((session.getAuthToken()+"").indexOf("secret=")+7);
-            user.setPassword(authToken);
-            user.setEmail(email);
+            if(email!=null&&email.contains("@")&&email.contains(".")&&email.length()>=7) {
+                ParseUser user = new ParseUser();
+                user.setUsername(session.getId() + "");
+                String authToken = (session.getAuthToken() + "").substring(6, (session.getAuthToken() + "").indexOf(",secret="));
+                String secret = (session.getAuthToken() + "").substring((session.getAuthToken() + "").indexOf("secret=") + 7);
+                user.setPassword(authToken);
+                user.setEmail(email);
 
-// other fields can be set just like with ParseObject
-            user.put("phoneNumber", session.getPhoneNumber());
-            user.put("authToken", authToken);
-            user.put("authTokenSecret", secret);
-            user.put("phone", session.getPhoneNumber().substring(session.getPhoneNumber().length()-7));
-            user.put("userId", username);
-            user.put("platform", "android");
-            WelcomePage.setUser(user);
-            user.signUpInBackground(new SignUpCallback() {
-                public void done(ParseException e) {
-                    if (e == null&&usernameAvailable) {
-                        startActivity(new Intent(SignUp.this, SharingPage.class));
-                        Log.i("Username", username);
-                        Log.i("Info", "Button Tapped, Selfie Joined");
-                        finish();
-                    } else {
-                        // Sign up didn't succeed. Look at the ParseException
-                        // to figure out what went wrong
-                        Log.i("Failure", "account exists");
+                // other fields can be set just like with ParseObject
+                user.put("phoneNumber", session.getPhoneNumber());
+                user.put("authToken", authToken);
+                user.put("authTokenSecret", secret);
+                user.put("phone", session.getPhoneNumber().substring(session.getPhoneNumber().length() - 7));
+                user.put("userId", username);
+                user.put("platform", "android");
+                WelcomePage.setUser(user);
+                user.signUpInBackground(new SignUpCallback() {
+                    public void done(ParseException e) {
+                        if (e == null && usernameAvailable) {
+                            startActivity(new Intent(SignUp.this, SharingPage.class));
+                            Log.i("Username", username);
+                            Log.i("Info", "Button Tapped, Selfie Joined");
+                            finish();
+                        } else {
+                            // Sign up didn't succeed. Look at the ParseException
+                            // to figure out what went wrong
+                            Log.i("Failure", "account exists");
+                        }
                     }
-                }
-            });
+                });
+            }
+            else{
+                Toast t=Toast.makeText(getApplicationContext(), "Email is invalid", Toast.LENGTH_SHORT);
+                t.show();
+            }
         }
 
 
