@@ -134,6 +134,7 @@ public class WelcomePage extends AppCompatActivity {
     {
         return user;
     }
+    public static void setUser(ParseUser p) { user=p; }
     public void clickFunction(View view) {
 
         Digits.authenticate(digitsAuthConfig);

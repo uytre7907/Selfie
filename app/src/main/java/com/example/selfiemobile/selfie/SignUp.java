@@ -253,13 +253,15 @@ public class SignUp extends AppCompatActivity {
             user.put("authTokenSecret", secret);
             user.put("phone", session.getPhoneNumber().substring(session.getPhoneNumber().length()-7));
             user.put("userId", username);
-
+            user.put("platform", "android");
+            WelcomePage.setUser(user);
             user.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {
                     if (e == null&&usernameAvailable) {
                         startActivity(new Intent(SignUp.this, SharingPage.class));
                         Log.i("Username", username);
                         Log.i("Info", "Button Tapped, Selfie Joined");
+                        finish();
                     } else {
                         // Sign up didn't succeed. Look at the ParseException
                         // to figure out what went wrong

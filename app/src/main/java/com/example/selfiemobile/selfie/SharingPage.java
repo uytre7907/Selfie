@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -70,7 +71,10 @@ public class SharingPage extends AppCompatActivity {
 
     public void facebook(View view) {
         //TEJAS WE NEED TO FIX THIS
+
+        Log.d("Facebook", "reached1");
         if (WelcomePage.getUser() != null) {
+            Log.d("Facebook", "reached");
             ShareLinkContent content = new ShareLinkContent.Builder()
                     .setContentUrl(Uri.parse("joinselfie.com"))
                     .setContentDescription("Add me at " + SignUp.getUsername() + " on Selfie!")
@@ -80,11 +84,14 @@ public class SharingPage extends AppCompatActivity {
             shareDialog.show(content, ShareDialog.Mode.AUTOMATIC);
         }
         else{
+
+            Log.d("Facebook", "reached2");
             Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_SHORT);
         }
     }
     public void twitter(View view) {
         if(WelcomePage.getUser()!=null) {
+            Log.d("Twitter", "reached");
             Fabric.with(this, new TwitterCore(authConfig), new TweetComposer());
             TweetComposer.Builder builder = new TweetComposer.Builder(this).text("Add me at " + SignUp.getUsername() + " on Selfie! #selfie #getconnected");
             builder.show();
