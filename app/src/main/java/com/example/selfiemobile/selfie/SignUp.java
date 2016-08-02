@@ -48,18 +48,32 @@ public class SignUp extends AppCompatActivity {
     private BackgroundAnimator backgroundAnimator;
     private static String username;
     private static String email;
-    private boolean usernameAvailable;
+    private boolean usernameAvailable=false;
+    private boolean emailIsValid=false;
+    private TextWatcher emailTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        @Override
+        public void afterTextChanged(Editable s) {
+            email = s.toString();
+            emailIsValid=email.contains("@")&&email.contains(".")&&email.length()>=7;
+            Log.d("EmailValidity", emailIsValid+"");
+            if(emailIsValid&&usernameAvailable)
+            {
+                backgroundAnimator.activateButton();
+            }
+            else{
+                backgroundAnimator.deactivateButton();
+            }
+        }
+    };
     private TextWatcher usernameTextWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
+        public void onTextChanged(CharSequence s, int start, int before, int count) {}
         @Override
         public void afterTextChanged(Editable s) {
             //TEJAS - HERE YOU NEED TO ADD A LITTLE IMAGE AND TEXT THAT CHANGE ACCORDING TO THE AVAILABILITY OF THE USERNAME AND IF THE EMALIL
@@ -69,6 +83,7 @@ public class SignUp extends AppCompatActivity {
                 s.replace(s.toString().indexOf(' '), s.toString().indexOf(' ')+1, "");
             }
             else {
+                username=s.toString();
                 if (s.toString().length() < 3) {
                     Log.d("no error", "username DOES exist");
                     usernameAvailable = false;
@@ -92,12 +107,15 @@ public class SignUp extends AppCompatActivity {
                         public void done(List<ParseUser> objects, ParseException e) {
 
                             if (e == null) {
-                                if (objects.size() == 0) {
+                                EditText usernameEdit = (EditText)findViewById(R.id.username_edit_text);
+                                //TO CATCH THE LATENCY OF THE QUERY
+                                if (objects.size() == 0&&usernameEdit.getText().toString().length()>=3) {
                                     Log.d("error", "username does not exist3");
                                     usernameAvailable = true;
                                     availabilityText.setText("Username Available");
                                     availabilityImage.setImageResource(R.drawable.available);
-                                    backgroundAnimator.activateButton();
+                                    if(emailIsValid)
+                                        backgroundAnimator.activateButton();
                                     //HERE YOU MUST CHANGE THE IMAGE AND TEXT TO AN AVAILABLE STATE
                                 } else {
                                     Log.d("no error", "username does exist");
@@ -185,14 +203,15 @@ public class SignUp extends AppCompatActivity {
     {
         TextView welcomeMessage = (TextView) findViewById(R.id.see_you_soon);
         TextView selfieName = (TextView) findViewById(R.id.selfie_name);
-        EditText email = (EditText) findViewById(R.id.email_edit_text);
-        EditText username = (EditText) findViewById(R.id.username_edit_text);
+        EditText emailEdit = (EditText) findViewById(R.id.email_edit_text);
+        EditText usernameEdit = (EditText) findViewById(R.id.username_edit_text);
         Typeface helvetica = Typeface.createFromAsset(getAssets(), "HelveticaNeue.ttf");
         welcomeMessage.setTypeface(helvetica);
-        email.setTypeface(helvetica);
-        username.setTypeface(helvetica);
+        emailEdit.setTypeface(helvetica);
+        usernameEdit.setTypeface(helvetica);
         selfieName.setTypeface(helvetica);
-        username.addTextChangedListener(usernameTextWatcher);
+        usernameEdit.addTextChangedListener(usernameTextWatcher);
+        emailEdit.addTextChangedListener(emailTextWatcher);
     }
     public void secondClickFunction(View view) {
         username = ((EditText) findViewById(R.id.username_edit_text)).getText().toString();

@@ -158,4 +158,8 @@ public class BackgroundAnimator extends Timer
     {
         buttonIsActivated=false;
     }
+    public boolean getButtonActivatedStatus()
+    {
+        return buttonIsActivated;
+    }
 }
