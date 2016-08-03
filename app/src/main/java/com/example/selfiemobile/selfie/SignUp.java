@@ -263,11 +263,11 @@ public class SignUp extends AppCompatActivity {
                 user.signUpInBackground( new SignUpCallback() {
                     public void done(ParseException e) {
                         if (e == null && usernameAvailable) {
-                            startActivity(new Intent(SignUp.this, SharingPage.class));
                             ParseInstallation.getCurrentInstallation().put("user", user);
                             ParseInstallation.getCurrentInstallation().saveInBackground();
                             Log.i("Username", username);
                             Log.i("Info", "Button Tapped, Selfie Joined");
+                            startActivity(new Intent(SignUp.this, SharingPage.class));
                             finish();
                         } else {
                             // Sign up didn't succeed. Look at the ParseException
